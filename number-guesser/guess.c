@@ -21,5 +21,14 @@ int main(void)
   
   printf("You have chosen %d\n", user_num);
   rand_num = (rand() % (upper_bound - lower_bound + 1)) + lower_bound;
-  
+
+  printf("The correct answer is %d\n", rand_num);
+
+  if (user_num == rand_num)
+  {
+    printf("You got it right!!!\n");
+  } else
+  {
+    printf("Better luck next time.\n");
+  }
 }
