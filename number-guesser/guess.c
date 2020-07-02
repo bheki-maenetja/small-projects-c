@@ -3,11 +3,15 @@
 
 int main(void)
 {
-  int upper_bound, lower_bound, user_num;
+  int upper_bound, lower_bound, user_num, rand_num;
   printf("Enter a lower bound: ");
   scanf("%d", &lower_bound);
-  printf("Enter an upper bound: ");
-  scanf("%d", &upper_bound);
+
+  do
+  {
+    printf("Enter an upper bound: ");
+    scanf("%d", &upper_bound);
+  } while (upper_bound <= lower_bound);
   
   do
   {
@@ -16,9 +20,6 @@ int main(void)
   } while (user_num > upper_bound || user_num < lower_bound);
   
   printf("You have chosen %d\n", user_num);
-  // for (int i = 0; i < 5; i++)
-  // {
-  //   int rand_num = (rand() % (upper_bound - lower_bound + 1)) + lower_bound;
-  //   printf("%d\n", rand_num);
-  // }
+  rand_num = (rand() % (upper_bound - lower_bound + 1)) + lower_bound;
+  
 }
