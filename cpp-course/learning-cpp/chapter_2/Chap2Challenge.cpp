@@ -15,7 +15,8 @@ int main()
   bool gameOver = false;    
   
   int chipsInPile = 0;  
-  int chipsTaken = 0; 
+  int chipsTaken = 0;
+  int maxTake = 0; 
 
   string playerNames[2];
   
@@ -33,13 +34,16 @@ int main()
   
 	chipsInPile = (rand() % MAX_CHIPS) + 1;
   	cout << "This round will start with " << chipsInPile << " chips in the pile\n";
-    cout << "You can take up to " << static_cast<int>(MAX_TURN * chipsInPile) << endl;
+    maxTake = MAX_TURN * chipsInPile;
+    cout << "You can take up to " << maxTake << endl;
   	//create a variable to hold the integer value - static_cast<int>(MAX_TURN * chipsInPile) 
   	//Make sure you assign that at the right place, the compiler won't go back up and update
   	//Then knowing the max number that is allowed to be taken per turn, use that in the creation
   	//of a  add a random number to be inserted as the number taken. We will use this
   	//to play against the computer
-  
+    chipsTaken = (rand() % maxTake) + 1;
+    cout << chipsTaken << " chips have been taken" << endl;
+    
   
   return 0; 
 } 
