@@ -2,8 +2,6 @@
  #include <ctime>
  #include <cstdlib>
 using namespace std; 
- 
-
 
 const float MAX_TURN = .5;
 const int MAX_CHIPS = 100;
@@ -32,61 +30,67 @@ int main()
  
   //start the loop here to loop around if the user wishes to play again.
  
- 
-	chipsInPile = (rand() % MAX_CHIPS) + 1;  
-	cout << "This round will start with " << chipsInPile << " chips in the pile\n";
-  	 gameOver = false;
-    while (gameOver == false)
-	{
-	//start loop here to loop while the user has taken an invalid number of chips
-	
-		maxPerTurn = (MAX_TURN * chipsInPile);
-  		if (player1Turn)
-  		{
-  			cout << playerNames[0] << " How many chips would  you like?\n";
-		}
-		else
-		{
-			cout << playerNames[1] << " How many chips would  you like?\n";
-		}
-    	cout << "You can take up to ";
-		if (maxPerTurn == 0)
-		{
-			cout << " 1\n";
-		}
-		else
-		{
-			cout << maxPerTurn << endl;
-		}
-    	cin >> chipsTaken;
-    	
-    	//commented out solution portion from Chapter 2
-      	//chipsTaken = (rand() % maxPerTurn) + 1;
-      	//Add while statement here to test if the number of chips taken
-      	// is greater than the maxPerTurn AND chips in pile is greater than 1
-      	//Remember we are looping WHILE the entry by the user is invalid, so we
-      	// want the opposite of what would make a valid turn.
-    	
-	 chipsInPile = chipsInPile - chipsTaken;
-	 cout << "There are " << chipsInPile << " left in the pile\n";
-	 if (chipsInPile == 0)
-	 {
-	 	gameOver = true;
-	 	if (player1Turn)
-  		{
-  			cout << playerNames[1] << ", congratulations you won\n";
-		}
-		else
-		{
-			cout << playerNames[0] << ", congratulations you won\n";
-		}
-	 	
-	 }
-	 else
-	 {
-	 	player1Turn = !player1Turn;
-	 } 
-	} 
+    do
+    {
+        chipsInPile = (rand() % MAX_CHIPS) + 1;  
+        cout << "This round will start with " << chipsInPile << " chips in the pile\n";
+        gameOver = false;
+        while (gameOver == false)
+        {
+        //start loop here to loop while the user has taken an invalid number of chips
+            do
+            {
+                maxPerTurn = (MAX_TURN * chipsInPile);
+                if (player1Turn)
+                {
+                    cout << playerNames[0] << " How many chips would  you like?\n";
+                }
+                else
+                {
+                    cout << playerNames[1] << " How many chips would  you like?\n";
+                }
+                cout << "You can take up to ";
+                if (maxPerTurn == 0)
+                {
+                    cout << " 1\n";
+                }
+                else
+                {
+                    cout << maxPerTurn << endl;
+                }
+                cin >> chipsTaken;
+            } while (chipsInPile > 1 && chipsTaken > maxPerTurn);
+            
+            //commented out solution portion from Chapter 2
+            //chipsTaken = (rand() % maxPerTurn) + 1;
+            //Add while statement here to test if the number of chips taken
+            // is greater than the maxPerTurn AND chips in pile is greater than 1
+            //Remember we are looping WHILE the entry by the user is invalid, so we
+            // want the opposite of what would make a valid turn.
+            
+        chipsInPile = chipsInPile - chipsTaken;
+        cout << "There are " << chipsInPile << " left in the pile\n";
+        if (chipsInPile == 0)
+        {
+            gameOver = true;
+            if (player1Turn)
+            {
+                cout << playerNames[1] << ", congratulations you won\n";
+            }
+            else
+            {
+                cout << playerNames[0] << ", congratulations you won\n";
+            }
+            
+        }
+        else
+        {
+            player1Turn = !player1Turn;
+        } 
+        }
+        cout << "Would like to play again? (Y/N): " << endl;
+        cin >> userChoice;
+    } while (userChoice == 'y' || userChoice == 'Y');
       //end loop here after prompting the user to play again. Needs another variable to 
 	 //get input from the user to test if they wish to continue or not.
   return 0; 
