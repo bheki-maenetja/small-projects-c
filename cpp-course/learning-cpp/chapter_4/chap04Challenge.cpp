@@ -27,11 +27,7 @@ int main()
    srand(time(0));
   
   //ask the players for their names, then store in an array
-  cout << "Player 1, please enter your name: ";
-  cin >> playerNames[0];
-  cout << "\nThanks and good luck!" << endl << "Player 2, please enter your name: ";
-  cin >> playerNames[1];
-  cout << "\nThanks and good luck! \n";
+  getUserNames(playerNames);
   
   //start the game with a random number of chips in the pile
   do
@@ -74,7 +70,7 @@ int main()
   	cout << "Do you wish to play again? (Y/N)\n";
     cin >> userChoice;
     
-   }while ((userChoice == 'y') || (userChoice == 'Y'));  
+   }while (toupper(userChoice) == 'Y'));  
   return 0; 
 } 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -96,5 +92,9 @@ int askMove(bool player1Turn, int chipsInPile, string names[])
 ////////////////////////////////////////////////////////////////////////////////
 void getUserNames (string players[])
 {
-	
+	cout << "Player 1, please enter your name: ";
+    cin >> players[0];
+    cout << "\nThanks and good luck!" << endl << "Player 2, please enter your name: ";
+    cin >> players[1];
+    cout << "\nThanks and good luck! \n";
 }
