@@ -7,6 +7,10 @@ const char string[] = "This is a null-terminated string.";
 int main()
 {
     int count = 0;
+    for (char i : string) 
+    {
+        ++count;
+    }
     printf("The number of characters is: %d\n", count);
     return 0;
 }
