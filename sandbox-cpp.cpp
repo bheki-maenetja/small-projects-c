@@ -2,33 +2,61 @@
 #include <set>
 #include <iterator>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 #define N 3
 
-void printGrid(char array[N][N]);
-void getNeighbourCoords(int x, int y);
+void printGrid(vector< vector<char> > array);
+vector< vector<int> > getNeighbourCoords(int x, int y);
+void printCoords(vector< vector<int> > coords);
+void generateNewGrid(int oldX, int oldY, int newX, int newY, vector< vector <char> > array);
 
-char twoDArray[N][N] = {{'1', '2', '3'}, {'4','5','6'}, {'7','8','0'}};
+vector< vector<char> > twoDArray = {{'1', '2', '3'}, {'4','5','6'}, {'7','8','0'}};
 
 int main(int argc, char *argv[]) {
     printGrid(twoDArray);
-    getNeighbourCoords(1,2);
+    vector< vector<int> > neighbours = getNeighbourCoords(2,2);
+    // printCoords(neighbours);
+    printf("\n");
+    for (int i = 0; i < neighbours.size(); i++) {
+        generateNewGrid(2,2, neighbours[i][0], neighbours[i][1], twoDArray);
+    }
 }
 
-void getNeighbourCoords(int x, int y) {
-    // vector< vector<int> > neightbourCoords(4);
-    if (x < N - 1)
-        printf("(%d, %d)\n", x+1, y);
+vector< vector<int> > getNeighbourCoords(int x, int y) {
+    vector< vector<int> > neighbourCoords;
     if (x > 0)
-        printf("(%d, %d)\n", x-1, y);
-    if (y < N - 1)
-        printf("(%d, %d)\n", x, y+1);
+        neighbourCoords.push_back({x-1, y});
     if (y > 0)
-        printf("(%d, %d)\n", x, y-1);
+        neighbourCoords.push_back({x, y-1});
+    if (y < N - 1)
+        neighbourCoords.push_back({x, y+1});
+    if (x < N - 1)
+        neighbourCoords.push_back({x+1, y});
+    
+    return neighbourCoords;
 }
 
-void printGrid(char array[N][N]) {
+void generateNewGrid(int oldX, int oldY, int newX, int newY, vector< vector<char> > array) {
+    vector < vector<char> > newGrid;
+    copy(array.begin(), array.end(), back_inserter(newGrid));
+
+    char temp = newGrid[newX][newY];
+    newGrid[newX][newY] = '0';
+    newGrid[oldX][oldY] = temp;
+    printGrid(newGrid);
+    printf("\n");
+}
+
+vector<int> getEmptySpaceCoords(vector< vector<char> > array) {
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++)
+            if (array[i][j] == '0') return {i,j};
+    }
+}
+
+void printGrid(vector< vector<char> > array) {
     for (int i = 0; i < N; i++)
     {
         for (int j = 0; j < N; j++)
@@ -36,4 +64,10 @@ void printGrid(char array[N][N]) {
         printf("\n");
     }
 }
+
+void printCoords(vector< vector<int> > coords) {
+    for (int i = 0; i < coords.size(); i++) {
+        printf("(%d, %d)\n", coords[i][0], coords[i][1]);
+    }
+} 
 
