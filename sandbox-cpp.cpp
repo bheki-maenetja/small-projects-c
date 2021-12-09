@@ -1,5 +1,6 @@
 #include <iostream>
 #include <set>
+#include <queue>
 #include <iterator>
 #include <vector>
 #include <algorithm>
@@ -10,17 +11,43 @@ using namespace std;
 void printGrid(vector< vector<char> > array);
 vector< vector<int> > getNeighbourCoords(int x, int y);
 void printCoords(vector< vector<int> > coords);
-void generateNewGrid(int oldX, int oldY, int newX, int newY, vector< vector <char> > array);
+vector<int> getEmptySpaceCoords(vector< vector<char> > array);
+vector < vector<char> > generateNewGrid(int oldX, int oldY, int newX, int newY, vector< vector<char> > array);
+void bfs_search();
 
 vector< vector<char> > twoDArray = {{'1', '2', '3'}, {'4','5','6'}, {'7','8','0'}};
 
 int main(int argc, char *argv[]) {
-    printGrid(twoDArray);
-    vector< vector<int> > neighbours = getNeighbourCoords(2,2);
-    // printCoords(neighbours);
-    printf("\n");
-    for (int i = 0; i < neighbours.size(); i++) {
-        generateNewGrid(2,2, neighbours[i][0], neighbours[i][1], twoDArray);
+    // printGrid(twoDArray);
+    // vector< vector<int> > neighbours = getNeighbourCoords(2,2);
+    // printf("\n");
+    // for (int i = 0; i < neighbours.size(); i++) {
+    //     generateNewGrid(2,2, neighbours[i][0], neighbours[i][1], twoDArray);
+    // }
+    bfs_search();
+}
+
+void bfs_search() {
+    set<vector< vector<char> >> explored;
+    queue< vector< vector<char> >> frontier;
+    frontier.push(twoDArray);
+    explored.insert(twoDArray);
+
+    while (!frontier.empty()) {
+        vector< vector<char> > grid = frontier.front();
+        frontier.pop();
+        vector<int> emptySpaceCoords = getEmptySpaceCoords(grid);
+        vector< vector<int> > neighbours = getNeighbourCoords(emptySpaceCoords[0], emptySpaceCoords[1]);
+
+        printGrid(grid);
+        printf("\n");
+        for (int i = 0; i < neighbours.size(); i++) {
+            vector < vector<char> > newGrid = generateNewGrid(emptySpaceCoords[0], emptySpaceCoords[1], neighbours[i][0], neighbours[i][1], grid);
+            if (explored.find(newGrid) == explored.end()) {
+                explored.insert(newGrid);
+                frontier.push(newGrid);
+            }
+        }
     }
 }
 
@@ -38,15 +65,16 @@ vector< vector<int> > getNeighbourCoords(int x, int y) {
     return neighbourCoords;
 }
 
-void generateNewGrid(int oldX, int oldY, int newX, int newY, vector< vector<char> > array) {
+vector < vector<char> > generateNewGrid(int oldX, int oldY, int newX, int newY, vector< vector<char> > array) {
     vector < vector<char> > newGrid;
     copy(array.begin(), array.end(), back_inserter(newGrid));
 
     char temp = newGrid[newX][newY];
     newGrid[newX][newY] = '0';
     newGrid[oldX][oldY] = temp;
-    printGrid(newGrid);
-    printf("\n");
+    // printGrid(newGrid);
+    
+    return newGrid;
 }
 
 vector<int> getEmptySpaceCoords(vector< vector<char> > array) {
